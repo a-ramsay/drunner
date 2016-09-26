@@ -110,7 +110,7 @@ function putS3
 
   souce_path=$1
   aws_path=$2
-  BUCKET='drunner'
+  BUCKET='adi-drunner'
 
   date="$(LC_ALL=C date -u +"%a, %d %b %Y %X %z")"
   md5="$(openssl md5 -binary < "${souce_path}" | base64)"
