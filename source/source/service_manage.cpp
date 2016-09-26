@@ -144,12 +144,10 @@ namespace service_manage
          for (const auto & entry : syf.getContainers())
          {
             bool runsasroot = utils_docker::dockerContainerRunsAsRoot(entry.name);
-            if (runsasroot && !entry.runasroot)
-               fatal("Docker container " + entry.name + " runs as root, but service.lua does not permit this.");
-            else if (!runsasroot && entry.runasroot)
-               logmsg(kLWARN, "Docker container " + entry.name + " doesn't run as root, but service.lua says it should.");
-            else if (entry.runasroot)
+            if (entry.runasroot)
                logmsg(kLWARN, "Docker container " + entry.name + " runs as root. This may pose a security risk.");
+            else if (!entry.runasroot && runsasroot)
+               fatal("Docker container " + entry.name + " runs as root, but service.lua does not permit this.");               
 
             if (!devMode)
                utils_docker::pullImage(entry.name);
